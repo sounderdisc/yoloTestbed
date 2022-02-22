@@ -1,4 +1,5 @@
-from tkinter import Image
+import sys
+sys.path.append("./yolov5/models/")
 from common import DetectMultiBackend
 import os
 from  PIL import Image
@@ -6,7 +7,7 @@ import numpy as np
 
 
 def main():
-    print("current working irectory: " + os.gwd + "\n")
+    print("current working irectory: " + os.getcwd() + "\n")
     model = DetectMultiBackend(weights="bestPizza500.pt")
 
     im_frame = Image.open("bb8_sample28.png")
