@@ -33,6 +33,7 @@ def main():
     result = model.forward(inputTensor)
 
     print(result)
+    print(result.shape)
 
 if __name__ == "__main__":
     main()
