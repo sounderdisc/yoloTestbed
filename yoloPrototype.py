@@ -12,8 +12,9 @@ def main():
     print("current working irectory: " + os.getcwd() + "\n")
     print("cuda is availible?: " + str(torch.cuda.is_available()))
     # make instance of yolo model, give it weights to load, also set device
-    model = DetectMultiBackend(weights="bestPizza500.pt")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = DetectMultiBackend(weights="bestPizza500.pt")
+    model.to(device)
 
     # load an image. in the real thing, this would be a parameter
     im_frame = Image.open("bb8_sample28.png")
@@ -23,11 +24,15 @@ def main():
     np_frame = np.transpose(np_frame, axes=[2,0,1])
     inputTensor = torch.tensor(np_frame).to(device)
     inputTensor = torch.unsqueeze(inputTensor, 0)
+    inputTensor = inputTensor.type(torch.cuda.FloatTensor)
 
+    # if this isn't ([1, 3, 512, 512]) then youre gonna have an error
     print("image shape: " + str(inputTensor.shape))
 
     # and this is why i hate weakly typed languages. What is result? WHO KNOWS???
     result = model.forward(inputTensor)
+
+    print(result)
 
 if __name__ == "__main__":
     main()
