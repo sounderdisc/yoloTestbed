@@ -17,7 +17,8 @@ def main():
     model.to(device)
 
     # load an image. in the real thing, this would be a parameter
-    im_frame = Image.open("bb8_sample28.png")
+    # im_frame = Image.open("bb8_sample28.png") # true positive, bb8 is in this picture
+    im_frame = Image.open("bb8_paint_true_neg.png") # true negative, bb8 is not in this image
     np_frame = np.array(im_frame)
 
     # change to be tensor with axes to be (batch, channels, height, width)
@@ -34,6 +35,17 @@ def main():
 
     print(result)
     print(result.shape)
+
+    confidence = torch.squeeze(result)
+    confidence = confidence[:,5] # the sixth column should be the confidence scores 
+    max_confidence = torch.max(confidence)
+
+    print(confidence.shape)
+    print(max_confidence)
+
+    target_found = True if max_confidence.item() > 0.5 else False
+
+    print("did we find bb8? :" + str(target_found))
 
 if __name__ == "__main__":
     main()
