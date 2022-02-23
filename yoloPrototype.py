@@ -26,15 +26,13 @@ def main():
     
     # Inference
     results = model(imgs, size=512)  # includes NMS
-    np_results = np.array(results)
 
     # show shapes ad results
     # print(imgs.shape)
-    print(np_results.shape)
-    print(np_results)
+    results.print()
 
-    confidence = np_results[:, :, 5] # the sixth column should be the confidence scores 
-    max_confidence = np.amax(confidence)
+    confidence = results[:, :, 5] # the sixth column should be the confidence scores 
+    max_confidence = confidence.max()
 
     print(max_confidence)
 
