@@ -14,12 +14,13 @@ def main():
     print("cuda is availible?: " + str(torch.cuda.is_available()))
     # Model
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
+    # model = torch.hub.load('ultralytics/yolov5', 'yolov5s') # loads default coco model
+    model = torch.hub.load('ultralytics/yolov5', 'custom', path='./bestPizza500.pt', source='local')
     model.to(device)
 
     # load an image. in the real thing, this would be a parameter
-    # im_frame = Image.open("bb8_sample28.png") # true positive, bb8 is in this picture
-    im_frame = Image.open("bb8_paint_true_neg.png") # true negative, bb8 is not in this image
+    im_frame = Image.open("bb8_sample28.png") # true positive, bb8 is in this picture
+    # im_frame = Image.open("bb8_paint_true_neg.png") # true negative, bb8 is not in this image
 
     # all we have to do is wrap the image into a batch. I guess torch hub deals with reordering data for us?
     imgs = [im_frame]
