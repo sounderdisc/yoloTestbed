@@ -25,17 +25,17 @@ def main():
     imgs = [im_frame]
     
     # Inference
-    results = model(imgs, size=640)  # includes NMS
+    results = model(imgs, size=512)  # includes NMS
+    np_results = np.array(results)
 
     # show shapes ad results
-    print(imgs.shape)
-    print(results.shape)
-    print(results)
+    # print(imgs.shape)
+    print(np_results.shape)
+    print(np_results)
 
-    confidence = results[:, :, 5] # the sixth column should be the confidence scores 
-    max_confidence = torch.max(confidence)
+    confidence = np_results[:, :, 5] # the sixth column should be the confidence scores 
+    max_confidence = np.amax(confidence)
 
-    print(confidence.shape)
     print(max_confidence)
 
     target_found = True if max_confidence.item() > 0.5 else False
